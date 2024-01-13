@@ -1,11 +1,11 @@
 # type-IncludeProperties
-Uselful for fullstack dev using **Front TypeScript** and **.NET**.
+Uselful for fullstack developer using **Front TypeScript** and **.NET**.
 
-This goal is typed [Include Method]([https://](https://learn.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.entityframeworkqueryableextensions.include?view=efcore-8.0#microsoft-entityframeworkcore-entityframeworkqueryableextensions-include-1(system-linq-iqueryable((-0))-system-string))) for **EF Core**  via DTO.
+This goal is typed [Include Method](https://learn.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.entityframeworkqueryableextensions.include?view=efcore-8.0#microsoft-entityframeworkcore-entityframeworkqueryableextensions-include-1(system-linq-iqueryable((-0))-system-string)) for **EF Core** via DTO.
 
 ### Docs links:
 
-> [ObjectQuery<T>.Include(String) Method]([https://](https://learn.microsoft.com/en-us/dotnet/api/system.data.objects.objectquery-1.include?view=netframework-4.8.1))
+> [ObjectQuery<T>.Include(String) Method](https://learn.microsoft.com/en-us/dotnet/api/system.data.objects.objectquery-1.include?view=netframework-4.8.1)
 
 ### Usage Notes
 
