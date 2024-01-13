@@ -82,4 +82,4 @@ type Paths<T, Parent = never> = T extends Primitive
  * // ^? "EntityB" | "EntityB.EntityC"
  *
  **/
-type IncludeProperties<T> = Paths<GetNonPrimitive<T>>;
+export type IncludeProperties<T> = Paths<GetNonPrimitive<T>>;

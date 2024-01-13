@@ -1,3 +1,4 @@
+import { IncludeProperties } from "../includeProperties";
 import { Expect, Equal } from "./utility-test";
 
 export interface EntityA {
