@@ -1,13 +1,4 @@
-/**
- * Primitive represents the basic types
- */
-type Primitive = string | number | boolean | Date | null | undefined;
-
-/**
- * CheckCircularly is a utility type that checks if a type is the same as its parent.
- * If it is, it returns `never`, effectively breaking the circular reference.
- */
-type CheckCircularly<Type, Parent> = Type extends Parent ? never : Type;
+import { ArrayType, CheckCircularly, Primitive } from "./utility-types";
 
 /**
  * Join is a utility type that concatenates two property keys with a dot.
@@ -25,8 +16,10 @@ type Join<K, P> = K extends string | number
  * If a property's type is the same as the parent type, it's also excluded to prevent circular references.
  */
 type GetNonPrimitive<Type, Parent = never> = {
-	[Property in keyof Type as Type[Property] extends Primitive ? never : Property]-?: 
-		CheckCircularly<Type[Property], Parent>;
+	[Property in keyof Type as Type[Property] extends Primitive | [] ? never : Property]-?:
+	Type[Property] extends (infer U)[]
+		? CheckCircularly<U, Parent>
+		: CheckCircularly<Type[Property], Parent>;
 };
 
 /**
@@ -36,10 +29,12 @@ type GetNonPrimitive<Type, Parent = never> = {
 type Paths<T, Parent = never> = T extends Primitive
 	? never
 	: {
-			[K in keyof GetNonPrimitive<T, Parent>]-?: K extends string | number
-				? `${K}` | Join<K, Paths<GetNonPrimitive<T, Parent>[K], T>>
-				: never;
-		}[keyof GetNonPrimitive<T, Parent>];
+		[K in keyof GetNonPrimitive<T, Parent>]-?: K extends string | number
+			? `${K}` | (GetNonPrimitive<T, Parent>[K] extends (infer U)[]
+				? Join<K, Paths<U, T>>
+				: Join<K, Paths<GetNonPrimitive<T, Parent>[K], T>>)
+			: never;
+	}[keyof GetNonPrimitive<T, Parent>];
 
 
 /**
@@ -82,4 +77,4 @@ type Paths<T, Parent = never> = T extends Primitive
  * // ^? "EntityB" | "EntityB.EntityC"
  *
  **/
-export type IncludeProperties<T> = Paths<GetNonPrimitive<T>>;
+export type IncludeProperties<T> = Paths<GetNonPrimitive<ArrayType<T>>>;
