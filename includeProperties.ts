@@ -15,13 +15,12 @@ type Join<K, P> = K extends string | number
  * If a property's type is a primitive, it's excluded from the resulting type.
  * If a property's type is the same as the parent type, it's also excluded to prevent circular references.
  */
-type GetNonPrimitive<Type, Parent = never> = {
+export type GetNonPrimitive<Type, Parent = never> = [Type] extends [Primitive | []] ? never : {
 	[Property in keyof Type as Type[Property] extends Primitive | [] ? never : Property]-?:
 	Type[Property] extends (infer U)[]
 		? CheckCircularly<U, Parent>
 		: CheckCircularly<Type[Property], Parent>;
 };
-
 /**
  * Paths is a recursive type that generates a union of the paths of all non-primitive properties in a type.
  * The paths are represented as strings, with nested properties separated by dots.
@@ -34,7 +33,11 @@ type Paths<T, Parent = never> = T extends Primitive
 				? Join<K, Paths<U, T>>
 				: Join<K, Paths<GetNonPrimitive<T, Parent>[K], T>>)
 			: never;
-	}[keyof GetNonPrimitive<T, Parent>];
+	}[keyof GetNonPrimitive<T, Parent>] extends infer Result
+		? Result extends string | number
+			? Result
+			: never
+		: never;
 
 
 /**
